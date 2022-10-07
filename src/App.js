@@ -6,7 +6,6 @@ import Header from './components/Header';
 import List from './components/List';
 // import Map from './components/Map';
 import MapBox from './components/Map/MapBox';
-import JsonData from './data';
 import './App.css';
 
 const App = () => {
@@ -48,20 +47,15 @@ const App = () => {
                         }
                     })
             } else {
-                const data = JsonData.data;
-                console.log({data})
-                setPlaces(data?.filter(place => place.name && place.num_reviews > 0));
-                setFilteredPlaces([]);
-                setIsLoading(false);
-                // getPlacesData(type, bounds)
-                //     .then((data) => {
-                //         if (data) {
-                //             console.log({data})
-                //             setPlaces(data?.filter(place => place.name && place.num_reviews > 0));
-                //             setFilteredPlaces([]);
-                //             setIsLoading(false);
-                //         }
-                //     });
+                getPlacesData(type, bounds)
+                    .then((data) => {
+                        if (data) {
+                            console.log({data})
+                            setPlaces(data?.filter(place => place.name && place.num_reviews > 0));
+                            setFilteredPlaces([]);
+                            setIsLoading(false);
+                        }
+                    });
             }
         }
     }, [bounds, type, coordinates]);

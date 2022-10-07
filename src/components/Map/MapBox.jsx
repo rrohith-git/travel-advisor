@@ -6,8 +6,17 @@ import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import Rating from '@material-ui/lab/Rating';
 
 import useStyles from './styles';
-import 'mapbox-gl/dist/mapbox-gl.css';
+// import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+
+// added the following 6 lines.
+import mapboxgl from 'mapbox-gl';
+
+// The following is required to stop "npm build" from transpiling mapbox code.
+// notice the exclamation point in the import.
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 const GeoCoder = new MapboxGeocoder({
     accessToken: process.env.REACT_APP_MAPBOX_TOKEN
@@ -73,11 +82,6 @@ const MapBox = ({ coordinates, setCoordinates, setBounds, places, setChildClicke
                                 (
                                     <>
                                         <LocationOnOutlinedIcon color='primary' fontSize='large' />
-                                        <Popup longitude={Number(place.latitude)} latitude={Number(place.longitude)}
-                                            anchor="top"
-                                            onClose={() => console.log('clicked')}>
-                                            {place.name}
-                                        </Popup>
                                     </>
                                 ) :
                                 type === 'airbnb' ?
